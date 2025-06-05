@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@//175.193.6.172:1521/XEPDB1
+    username: DEVUSER
+    password: dlxogod
+    driver-class-name: oracle.jdbc.OracleDriver
+
+server:
+  port: 8080
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.boardapi.model
+
+logging:
+  level:
+    org.mybatis: DEBUG
+    com.boardapi: DEBUG
+    org.springframework.boot.context.config: DEBUG
