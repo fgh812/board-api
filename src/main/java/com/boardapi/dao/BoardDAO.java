@@ -32,5 +32,4 @@ public class BoardDAO {
     };
 
     // TODO. 추천 수 증가
-    public void updateFreeBoardRecmmCnt(BoardConditionVO boardVO) { boardMapper.updateFreeBoardRecmmCnt(boardVO); }
 }

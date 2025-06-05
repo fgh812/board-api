@@ -74,10 +74,7 @@
     </delete>
 
     <!-- TODO. 추천수 증가 -->
-    <update id="updateFreeBoardRecmmCnt" parameterType="com.boardapi.model.BoardConditionVO">
-        UPDATE FREE_BOARD
-           SET RECMM_CNT = RECMM_CNT + 1
-         WHERE ID = #{id}
-    </update>
+<!--    <update id="updateFreeBoardRecmmCnt">-->
+<!--    </update>-->
 
 </mapper>

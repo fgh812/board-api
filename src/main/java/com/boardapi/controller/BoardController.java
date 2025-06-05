@@ -86,14 +86,7 @@ public class BoardController {
 
     // TODO. 추천 수 증가
     @PutMapping("/free/update/recmmCnt")
-    public ResponseEntity<BaseResponseDTO> updateFreeBoardRecmmCnt(@RequestBody BoardUpdateRecmmRequestDTO dto) {
-        try {
-            boardService.updateFreeBoardRecmmCnt(dto);
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new BaseResponseDTO(e.getMessage()));
-        }
+    public ResponseEntity<BaseResponseDTO> updateFreeBoardRecmmCnt() {
         return ResponseEntity.ok().body(new BaseResponseDTO());
     }
 }
