@@ -117,6 +117,11 @@ public class BoardService {
 
     
     // TODO. 추천 수 증가
-    public void updateFreeBoardRecmmCnt() { }
+    public void updateFreeBoardRecmmCnt(BoardUpdateRecmmRequestDTO dto) {
+        BoardConditionVO boardVO = new BoardConditionVO();
+        boardVO.setId(dto.getId());
+
+        boardDAO.updateFreeBoardRecmmCnt(boardVO);
+    }
 
 }

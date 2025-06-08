@@ -14,4 +14,5 @@ public interface BoardMapper {
     void updateFreeBoard(BoardConditionVO boardVO);
     void deleteFreeBoard(BoardConditionVO boardVO);
     // TODO. 추천 수 증가
+    void updateFreeBoardRecmmCnt(BoardConditionVO boardVO);
 }
