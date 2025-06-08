@@ -60,7 +60,7 @@ public class BoardService {
         boardVO.setId(dto.getId());
 
         BoardResultVO resultVO = boardDAO.selectFreeBoardDetail(boardVO);
-        if (resultVO.getRecmmCnt() > 5) {
+        if (resultVO.getRecmmCnt() != null && resultVO.getRecmmCnt() > 5) {
             resultVO.setTitle("[베스트 추천] " + resultVO.getTitle());
         }
 
