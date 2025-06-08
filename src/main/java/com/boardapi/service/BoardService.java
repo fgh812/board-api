@@ -1,17 +1,16 @@
 package com.boardapi.service;
 
 import com.boardapi.dao.BoardDAO;
-import com.boardapi.dto.BoardResultDTO;
 import com.boardapi.dto.request.*;
 import com.boardapi.dto.response.BoardDetailResponseDTO;
 import com.boardapi.dto.response.BoardListResponseDTO;
+import com.boardapi.mapper.struct.BoardMapperStruct;
 import com.boardapi.model.BoardConditionVO;
 import com.boardapi.model.BoardResultVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +18,8 @@ import java.util.List;
 public class BoardService {
 
     private final BoardDAO boardDAO;
+
+    private final BoardMapperStruct boardMapperStruct;
 
 
     /**
@@ -29,22 +30,7 @@ public class BoardService {
         BoardListResponseDTO responseDTO = new BoardListResponseDTO();
 
         List<BoardResultVO> resultVOList = boardDAO.selectFreeBoardList();
-        List<BoardResultDTO> resultDTOList = new ArrayList<>();
-
-        for (BoardResultVO resultVO : resultVOList) {
-            BoardResultDTO resultDTO = new BoardResultDTO();
-            resultDTO.setId(resultVO.getId());
-            resultDTO.setTitle(resultVO.getTitle());
-            resultDTO.setContent(resultVO.getContent());
-            resultDTO.setRecmmCnt(resultVO.getRecmmCnt());
-            resultDTO.setRegId(resultVO.getRegId());
-            resultDTO.setRegDt(resultVO.getRegDt());
-            resultDTO.setUpId(resultVO.getUpId());
-            resultDTO.setUpDt(resultVO.getUpDt());
-
-            resultDTOList.add(resultDTO);
-        }
-        responseDTO.setBoardResultDTOList(resultDTOList);
+        responseDTO.setBoardResultDTOList(boardMapperStruct.toBoardResultDTOList(resultVOList));
 
         return responseDTO;
     }
@@ -56,25 +42,12 @@ public class BoardService {
      */
     public BoardDetailResponseDTO selectFreeBoardDetail(BoardDetailRequestDTO dto) {
         BoardDetailResponseDTO responseDTO = new BoardDetailResponseDTO();
-        BoardConditionVO boardVO = new BoardConditionVO();
-        boardVO.setId(dto.getId());
 
-        BoardResultVO resultVO = boardDAO.selectFreeBoardDetail(boardVO);
+        BoardResultVO resultVO = boardDAO.selectFreeBoardDetail(boardMapperStruct.toBoardConditionVO(dto));
         if (resultVO.getRecmmCnt() != null && resultVO.getRecmmCnt() > 5) {
             resultVO.setTitle("[베스트 추천] " + resultVO.getTitle());
         }
-
-        BoardResultDTO resultDTO = new BoardResultDTO();
-        resultDTO.setId(resultVO.getId());
-        resultDTO.setTitle(resultVO.getTitle());
-        resultDTO.setContent(resultVO.getContent());
-        resultDTO.setRecmmCnt(resultVO.getRecmmCnt());
-        resultDTO.setRegId(resultVO.getRegId());
-        resultDTO.setRegDt(resultVO.getRegDt());
-        resultDTO.setUpId(resultVO.getUpId());
-        resultDTO.setUpDt(resultVO.getUpDt());
-
-        responseDTO.setBoardResultDTO(resultDTO);
+        responseDTO.setBoardResultDTO(boardMapperStruct.toBoardResultDTO(resultVO));
 
         return responseDTO;
     }
@@ -84,10 +57,7 @@ public class BoardService {
      * @param dto
      */
     public void insertFreeBoard(BoardCreateRequestDTO dto) {
-        BoardConditionVO boardVO = new BoardConditionVO();
-        boardVO.setTitle(dto.getTitle());
-        boardVO.setContent(dto.getContent());
-        boardVO.setRegId(dto.getRegId());
+        BoardConditionVO boardVO = boardMapperStruct.toBoardConditionVO(dto);
         boardVO.setRegDt(LocalDateTime.now());
 
         boardDAO.insertFreeBoard(boardVO);
@@ -98,28 +68,22 @@ public class BoardService {
      * @param dto
      */
     public void updateFreeBoard(BoardUpdateRequestDTO dto) {
-        BoardConditionVO boardVO = new BoardConditionVO();
-        boardVO.setId(dto.getId());
-        boardVO.setTitle(dto.getTitle());
-        boardVO.setContent(dto.getContent());
-        boardVO.setUpId(dto.getUpId());
+        BoardConditionVO boardVO = boardMapperStruct.toBoardConditionVO(dto);
         boardVO.setUpDt(LocalDateTime.now());
-        
+
         boardDAO.updateFreeBoard(boardVO);
     }
 
     public void deleteFreeBoard(BoardDeleteRequestDTO dto) {
-        BoardConditionVO boardVO = new BoardConditionVO();
-        boardVO.setId(dto.getId());
+        BoardConditionVO boardVO = boardMapperStruct.toBoardConditionVO(dto);
 
         boardDAO.deleteFreeBoard(boardVO);
     }
 
-    
+
     // TODO. 추천 수 증가
     public void updateFreeBoardRecmmCnt(BoardUpdateRecmmRequestDTO dto) {
-        BoardConditionVO boardVO = new BoardConditionVO();
-        boardVO.setId(dto.getId());
+        BoardConditionVO boardVO = boardMapperStruct.toBoardConditionVO(dto);
 
         boardDAO.updateFreeBoardRecmmCnt(boardVO);
     }
