@@ -7,10 +7,10 @@ import com.boardapi.model.BoardResultVO;
 import org.mapstruct.Mapper;
 import java.util.List;
 
+import static org.mapstruct.NullValueMappingStrategy.RETURN_NULL;
 import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
-import static org.mapstruct.NullValuePropertyMappingStrategy.SET_TO_NULL;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE)
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE, nullValueMappingStrategy = RETURN_NULL)
 public interface BoardMapperStruct {
 
     /* DTO -> VO */
